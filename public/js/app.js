@@ -77866,6 +77866,77 @@ module.exports = function(module) {
 
 /***/ }),
 
+/***/ "./resources/js/apis/Api.js":
+/*!**********************************!*\
+  !*** ./resources/js/apis/Api.js ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+
+var Api = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
+  baseURL: 'http://localhost:8000/api'
+});
+/* harmony default export */ __webpack_exports__["default"] = (Api);
+
+/***/ }),
+
+/***/ "./resources/js/apis/Cart.js":
+/*!***********************************!*\
+  !*** ./resources/js/apis/Cart.js ***!
+  \***********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Api */ "./resources/js/apis/Api.js");
+
+var END_POINT = 'cart';
+/* harmony default export */ __webpack_exports__["default"] = ({
+  all: function all() {
+    return _Api__WEBPACK_IMPORTED_MODULE_0__["default"].get(END_POINT);
+  },
+  Store: function Store(data) {
+    return _Api__WEBPACK_IMPORTED_MODULE_0__["default"].post(END_POINT, data);
+  },
+  "delete": function _delete(id) {
+    return _Api__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("".concat(END_POINT, "/").concat(id));
+  },
+  deleteAll: function deleteAll() {
+    return _Api__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"](END_POINT);
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/apis/Product.js":
+/*!**************************************!*\
+  !*** ./resources/js/apis/Product.js ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Api */ "./resources/js/apis/Api.js");
+
+var END_POINT = 'products';
+/* harmony default export */ __webpack_exports__["default"] = ({
+  all: function all() {
+    return _Api__WEBPACK_IMPORTED_MODULE_0__["default"].get(END_POINT);
+  },
+  show: function show(id) {
+    return _Api__WEBPACK_IMPORTED_MODULE_0__["default"].get("".concat(END_POINT, "/").concat(id));
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -78397,18 +78468,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCartItems", function() { return getCartItems; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeProductFromCart", function() { return removeProductFromCart; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clearCartItem", function() { return clearCartItem; });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _apis_Product__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../apis/Product */ "./resources/js/apis/Product.js");
+/* harmony import */ var _apis_Cart__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../apis/Cart */ "./resources/js/apis/Cart.js");
+
 
 var getProducts = function getProducts(_ref) {
   var commit = _ref.commit;
-  axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('http://localhost:8000/api/products').then(function (response) {
+  // axios.get('http://localhost:8000/api/products')
+  _apis_Product__WEBPACK_IMPORTED_MODULE_0__["default"].all().then(function (response) {
     commit('SET_PRODUCTS', response.data);
   });
 };
 var getProduct = function getProduct(_ref2, productId) {
   var commit = _ref2.commit;
-  axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("http://localhost:8000/api/products/".concat(productId)).then(function (response) {
+  //  axios.get(`http://localhost:8000/api/products/${productId}`)
+  _apis_Product__WEBPACK_IMPORTED_MODULE_0__["default"].show(productId).then(function (response) {
     commit('SET_PRODUCT', response.data);
   });
 };
@@ -78419,28 +78493,65 @@ var addProductToCart = function addProductToCart(_ref3, _ref4) {
   commit('ADD_TO_CART', {
     product: product,
     quantity: quantity
-  });
-  axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('http://localhost:8000/api/cart', {
+  }); //  axios.post('http://localhost:8000/api/cart', {
+
+  _apis_Cart__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     product_id: product.id,
     quantity: quantity
   });
 };
 var getCartItems = function getCartItems(_ref5) {
   var commit = _ref5.commit;
-  axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('http://localhost:8000/api/cart').then(function (response) {
+  //   axios.get('http://localhost:8000/api/cart')
+  _apis_Cart__WEBPACK_IMPORTED_MODULE_1__["default"].all().then(function (response) {
     commit('SET_CART', response.data);
   });
 };
 var removeProductFromCart = function removeProductFromCart(_ref6, product) {
   var commit = _ref6.commit;
-  commit('REMOVE_PRODUCT_FROM_CART', product);
-  axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"]("http://localhost:8000/api/cart/".concat(product.id));
+  commit('REMOVE_PRODUCT_FROM_CART', product); //axios.delete(`http://localhost:8000/api/cart/${product.id}`);
+
+  _apis_Cart__WEBPACK_IMPORTED_MODULE_1__["default"]["delete"](product.id);
 };
 var clearCartItem = function clearCartItem(_ref7) {
   var commit = _ref7.commit;
-  commit('CLEAR_CART_ITEMS');
-  axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"]('http://localhost:8000/api/cart');
-};
+  commit('CLEAR_CART_ITEMS'); //axios.delete('http://localhost:8000/api/cart');
+
+  _apis_Cart__WEBPACK_IMPORTED_MODULE_1__["default"].deleteAll();
+}; // import axios from "axios";
+// export const getProducts = ({commit}) => {
+//     axios.get('http://localhost:8000/api/products')
+//         .then(response => {
+//             commit('SET_PRODUCTS', response.data);
+//         })
+// }
+// export const getProduct = ({commit}, productId) => {
+//     axios.get(`http://localhost:8000/api/products/${productId}`)
+//         .then(response => {
+//             commit('SET_PRODUCT', response.data);
+//         })
+// }
+// export const addProductToCart = ({commit}, {product, quantity }) => {
+//     commit('ADD_TO_CART', {product, quantity });
+//     axios.post('http://localhost:8000/api/cart', {
+//         product_id: product.id,
+//         quantity
+//     })
+// }
+// export const getCartItems = ({commit}) => {
+//     axios.get('http://localhost:8000/api/cart')
+//     .then(response => {
+//         commit('SET_CART', response.data);
+//     })
+// }
+// export const removeProductFromCart = ({commit}, product) => {
+//     commit('REMOVE_PRODUCT_FROM_CART', product);
+//     axios.delete(`http://localhost:8000/api/cart/${product.id}`);
+// }
+// export const clearCartItem = ({commit}) => {
+//     commit('CLEAR_CART_ITEMS');
+//     axios.delete('http://localhost:8000/api/cart');
+// }
 
 /***/ }),
 
