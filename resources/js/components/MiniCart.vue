@@ -101,7 +101,13 @@ export default {
         this.$store.dispatch('getCartItems');
     },
     methods: {
+        removeProductFromCart(product) {
+            this.$store.dispatch("removeProductFromCart", product);
+        },
 
+        clearCartItems() {
+            this.$store.dispatch("clearCartItem");
+        }
     }
 }
 </script>

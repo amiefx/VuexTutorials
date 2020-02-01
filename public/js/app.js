@@ -2124,7 +2124,14 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     this.$store.dispatch('getCartItems');
   },
-  methods: {}
+  methods: {
+    removeProductFromCart: function removeProductFromCart(product) {
+      this.$store.dispatch("removeProductFromCart", product);
+    },
+    clearCartItems: function clearCartItems() {
+      this.$store.dispatch("clearCartItem");
+    }
+  }
 });
 
 /***/ }),
@@ -78358,7 +78365,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
 /*!***************************************!*\
   !*** ./resources/js/store/actions.js ***!
   \***************************************/
-/*! exports provided: getProducts, getProduct, addProductToCart, getCartItems */
+/*! exports provided: getProducts, getProduct, addProductToCart, getCartItems, removeProductFromCart, clearCartItem */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -78367,6 +78374,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getProduct", function() { return getProduct; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addProductToCart", function() { return addProductToCart; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCartItems", function() { return getCartItems; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeProductFromCart", function() { return removeProductFromCart; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clearCartItem", function() { return clearCartItem; });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
@@ -78400,6 +78409,16 @@ var getCartItems = function getCartItems(_ref5) {
   axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('http://localhost:8000/api/cart').then(function (response) {
     commit('SET_CART', response.data);
   });
+};
+var removeProductFromCart = function removeProductFromCart(_ref6, product) {
+  var commit = _ref6.commit;
+  commit('REMOVE_PRODUCT_FROM_CART', product);
+  axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"]("http://localhost:8000/api/cart/".concat(product.id));
+};
+var clearCartItem = function clearCartItem(_ref7) {
+  var commit = _ref7.commit;
+  commit('CLEAR_CART_ITEMS');
+  axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"]('http://localhost:8000/api/cart');
 };
 
 /***/ }),
@@ -78464,7 +78483,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /*!*****************************************!*\
   !*** ./resources/js/store/mutations.js ***!
   \*****************************************/
-/*! exports provided: SET_PRODUCTS, SET_PRODUCT, ADD_TO_CART, SET_CART */
+/*! exports provided: SET_PRODUCTS, SET_PRODUCT, ADD_TO_CART, SET_CART, REMOVE_PRODUCT_FROM_CART, CLEAR_CART_ITEMS */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -78473,6 +78492,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_PRODUCT", function() { return SET_PRODUCT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ADD_TO_CART", function() { return ADD_TO_CART; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_CART", function() { return SET_CART; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_PRODUCT_FROM_CART", function() { return REMOVE_PRODUCT_FROM_CART; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CLEAR_CART_ITEMS", function() { return CLEAR_CART_ITEMS; });
 var SET_PRODUCTS = function SET_PRODUCTS(state, products) {
   state.products = products;
 };
@@ -78498,6 +78519,14 @@ var ADD_TO_CART = function ADD_TO_CART(state, _ref) {
 };
 var SET_CART = function SET_CART(state, cartItems) {
   state.cart = cartItems;
+};
+var REMOVE_PRODUCT_FROM_CART = function REMOVE_PRODUCT_FROM_CART(state, product) {
+  state.cart = state.cart.filter(function (item) {
+    return item.product.id !== product.id;
+  });
+};
+var CLEAR_CART_ITEMS = function CLEAR_CART_ITEMS(state) {
+  state.cart = [];
 };
 
 /***/ }),
