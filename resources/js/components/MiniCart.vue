@@ -73,15 +73,19 @@ export default {
     }),
 
     computed: {
-        cart() {
-            return this.$store.state.cart;
-        },
-        cartItemCount() {
-            return this.$store.getters.cartItemCount;
-        },
-        cartTotalPrice() {
-            return this.$store.getters.cartTotalPrice;
-        }
+        ...mapGetters(["cartItemCount", "cartTotalPrice"]),
+
+        ...mapState(["cart"]),
+
+        // cart() {
+        //     return this.$store.state.cart;
+        // },
+        // cartItemCount() {
+        //     return this.$store.getters.cartItemCount;
+        // },
+        // cartTotalPrice() {
+        //     return this.$store.getters.cartTotalPrice;
+        // })
     },
 
     // computed: {
@@ -98,12 +102,14 @@ export default {
     //     }
     // },
     mounted() {
-        this.$store.dispatch('getCartItems');
+        this.$store.dispatch("getCartItems");
+        //this.$store.dispatch('getCartItems');
     },
     methods: {
-        removeProductFromCart(product) {
-            this.$store.dispatch("removeProductFromCart", product);
-        },
+        ...mapActions(["removeProductFromCart", "getCartItems"]),
+        // removeProductFromCart(product) {
+        //     this.$store.dispatch("removeProductFromCart", product);
+        // },
 
         clearCartItems() {
             this.$store.dispatch("clearCartItem");

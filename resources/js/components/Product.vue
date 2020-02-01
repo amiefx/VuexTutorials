@@ -87,22 +87,32 @@ export default {
     },
 
     computed: {
-        product() {
-            return this.$store.state.product;
-        }
+        ...mapState(["product"])
+        // product() {
+        //     return this.$store.state.product;
+        // }
     },
 
     mounted() {
-        this.$store.dispatch("getProduct", this.id);
+        this.getProduct(this.id);
+       // this.$store.dispatch("getProduct", this.id);
     },
 
     methods: {
+        ...mapActions(["getProduct", "addProductToCart"]),
+
         addToCart() {
-            this.$store.dispatch("addProductToCart", {
+            this.addProductToCart({
                 product: this.product,
-                quantity: 1
+                quantity: this.quantity
             });
         }
+        // addToCart() {
+        //     this.$store.dispatch("addProductToCart", {
+        //         product: this.product,
+        //         quantity: 1
+        //     });
+        // }
     }
 
 }
