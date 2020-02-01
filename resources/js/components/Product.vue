@@ -87,23 +87,24 @@ export default {
     },
 
     computed: {
-        ...mapState(["product"])
-
+        product() {
+            return this.$store.state.product;
+        }
     },
 
     mounted() {
-        this.getProduct(this.id);
+        this.$store.dispatch("getProduct", this.id);
     },
 
     methods: {
-        ...mapActions(['getProduct', 'addProductToCart']),
         addToCart() {
-            this.addProductToCart( {
+            this.$store.dispatch("addProductToCart", {
                 product: this.product,
-                quantity: this.quantity
+                quantity: 1
             });
         }
     }
+
 }
 </script>
 

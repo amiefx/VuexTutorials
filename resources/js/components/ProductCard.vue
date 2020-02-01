@@ -54,9 +54,9 @@ import {mapActions} from "vuex";
 export default {
     props: ["product"],
     methods: {
-        ...mapActions(["addProductToCart"]),
+
         addToCart() {
-            this.addProductToCart({
+            this.$store.dispatch("addProductToCart", {
                 product: this.product,
                 quantity: 1
             });

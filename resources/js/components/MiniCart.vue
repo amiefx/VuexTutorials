@@ -73,8 +73,15 @@ export default {
     }),
 
     computed: {
-        ...mapState(["cart"]),
-        ...mapGetters(['cartItemCount', 'cartTotalPrice'])
+        cart() {
+            return this.$store.state.cart;
+        },
+        cartItemCount() {
+            return this.$store.getters.cartItemCount;
+        },
+        cartTotalPrice() {
+            return this.$store.getters.cartTotalPrice;
+        }
     },
 
     // computed: {
@@ -91,10 +98,9 @@ export default {
     //     }
     // },
     mounted() {
-        this.getCartItems();
+        this.$store.dispatch('getCartItems');
     },
     methods: {
-        ...mapActions(["removeProductFromCart", "clearCartItems", "getCartItems"])
 
     }
 }

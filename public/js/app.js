@@ -2025,12 +2025,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 //
 //
 //
@@ -2105,7 +2099,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       hints: true
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["cart"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['cartItemCount', 'cartTotalPrice'])),
+  computed: {
+    cart: function cart() {
+      return this.$store.state.cart;
+    },
+    cartItemCount: function cartItemCount() {
+      return this.$store.getters.cartItemCount;
+    },
+    cartTotalPrice: function cartTotalPrice() {
+      return this.$store.getters.cartTotalPrice;
+    }
+  },
   // computed: {
   //     cart() {
   //         return this.$store.state.cart;
@@ -2118,9 +2122,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   //     }
   // },
   mounted: function mounted() {
-    this.getCartItems();
+    this.$store.dispatch('getCartItems');
   },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["removeProductFromCart", "clearCartItems", "getCartItems"]))
+  methods: {}
 });
 
 /***/ }),
@@ -2135,12 +2139,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 //
 //
 //
@@ -2226,18 +2224,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       quantity: 1
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["product"])),
-  mounted: function mounted() {
-    this.getProduct(this.id);
+  computed: {
+    product: function product() {
+      return this.$store.state.product;
+    }
   },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(['getProduct', 'addProductToCart']), {
+  mounted: function mounted() {
+    this.$store.dispatch("getProduct", this.id);
+  },
+  methods: {
     addToCart: function addToCart() {
-      this.addProductToCart({
+      this.$store.dispatch("addProductToCart", {
         product: this.product,
-        quantity: this.quantity
+        quantity: 1
       });
     }
-  })
+  }
 });
 
 /***/ }),
@@ -2252,12 +2254,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 //
 //
 //
@@ -2312,14 +2308,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["product"],
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["addProductToCart"]), {
+  methods: {
     addToCart: function addToCart() {
-      this.addProductToCart({
+      this.$store.dispatch("addProductToCart", {
         product: this.product,
         quantity: 1
       });
     }
-  })
+  }
 });
 
 /***/ }),
@@ -2333,31 +2329,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var _ProductCard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProductCard */ "./resources/js/components/ProductCard.vue");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+/* harmony import */ var _ProductCard__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProductCard */ "./resources/js/components/ProductCard.vue");
 //
 //
 //
 //
 //
 //
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    ProductCard: _ProductCard__WEBPACK_IMPORTED_MODULE_1__["default"]
+    ProductCard: _ProductCard__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["products"])),
+  computed: {
+    products: function products() {
+      return this.$store.state.products;
+    }
+  },
   mounted: function mounted() {
-    this.getProducts();
-  },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getProducts"]))
+    this.$store.dispatch("getProducts");
+  }
 });
 
 /***/ }),
@@ -77847,77 +77838,6 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ "./resources/js/apis/Api.js":
-/*!**********************************!*\
-  !*** ./resources/js/apis/Api.js ***!
-  \**********************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-
-var Api = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
-  baseURL: 'http://localhost:8000/api'
-});
-/* harmony default export */ __webpack_exports__["default"] = (Api);
-
-/***/ }),
-
-/***/ "./resources/js/apis/Cart.js":
-/*!***********************************!*\
-  !*** ./resources/js/apis/Cart.js ***!
-  \***********************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Api */ "./resources/js/apis/Api.js");
-
-var END_POINT = 'cart';
-/* harmony default export */ __webpack_exports__["default"] = ({
-  all: function all() {
-    return _Api__WEBPACK_IMPORTED_MODULE_0__["default"].get(END_POINT);
-  },
-  Store: function Store(data) {
-    return _Api__WEBPACK_IMPORTED_MODULE_0__["default"].post(END_POINT, data);
-  },
-  "delete": function _delete(id) {
-    return _Api__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("".concat(END_POINT, "/").concat(id));
-  },
-  deleteAll: function deleteAll() {
-    return _Api__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"](END_POINT);
-  }
-});
-
-/***/ }),
-
-/***/ "./resources/js/apis/Product.js":
-/*!**************************************!*\
-  !*** ./resources/js/apis/Product.js ***!
-  \**************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Api */ "./resources/js/apis/Api.js");
-
-var END_POINT = 'products';
-/* harmony default export */ __webpack_exports__["default"] = ({
-  all: function all() {
-    return _Api__WEBPACK_IMPORTED_MODULE_0__["default"].get(END_POINT);
-  },
-  show: function show(id) {
-    return _Api__WEBPACK_IMPORTED_MODULE_0__["default"].get("".concat(END_POINT, "/").concat(id));
-  }
-});
-
-/***/ }),
-
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -78438,7 +78358,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
 /*!***************************************!*\
   !*** ./resources/js/store/actions.js ***!
   \***************************************/
-/*! exports provided: getProducts, getProduct, addProductToCart, getCartItems, removeProductFromCart, clearCartItems */
+/*! exports provided: getProducts, getProduct, addProductToCart, getCartItems */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -78447,21 +78367,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getProduct", function() { return getProduct; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addProductToCart", function() { return addProductToCart; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCartItems", function() { return getCartItems; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeProductFromCart", function() { return removeProductFromCart; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clearCartItems", function() { return clearCartItems; });
-/* harmony import */ var _apis_Product__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../apis/Product */ "./resources/js/apis/Product.js");
-/* harmony import */ var _apis_Cart__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../apis/Cart */ "./resources/js/apis/Cart.js");
-
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
 var getProducts = function getProducts(_ref) {
   var commit = _ref.commit;
-  _apis_Product__WEBPACK_IMPORTED_MODULE_0__["default"].all().then(function (response) {
+  axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('http://localhost:8000/api/products').then(function (response) {
     commit('SET_PRODUCTS', response.data);
   });
 };
 var getProduct = function getProduct(_ref2, productId) {
   var commit = _ref2.commit;
-  _apis_Product__WEBPACK_IMPORTED_MODULE_0__["default"].show(productId).then(function (response) {
+  axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("http://localhost:8000/api/products/".concat(productId)).then(function (response) {
     commit('SET_PRODUCT', response.data);
   });
 };
@@ -78473,26 +78390,16 @@ var addProductToCart = function addProductToCart(_ref3, _ref4) {
     product: product,
     quantity: quantity
   });
-  _apis_Cart__WEBPACK_IMPORTED_MODULE_1__["default"].store({
+  axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('http://localhost:8000/api/cart', {
     product_id: product.id,
     quantity: quantity
   });
 };
 var getCartItems = function getCartItems(_ref5) {
   var commit = _ref5.commit;
-  _apis_Cart__WEBPACK_IMPORTED_MODULE_1__["default"].all().then(function (response) {
+  axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('http://localhost:8000/api/cart').then(function (response) {
     commit('SET_CART', response.data);
   });
-};
-var removeProductFromCart = function removeProductFromCart(_ref6, product) {
-  var commit = _ref6.commit;
-  commit('REMOVE_PRODUCT_FROM_CART', product);
-  _apis_Cart__WEBPACK_IMPORTED_MODULE_1__["default"]["delete"](product.id);
-};
-var clearCartItems = function clearCartItems(_ref7) {
-  var commit = _ref7.commit;
-  commit('CLEAR_CART_ITEMS');
-  _apis_Cart__WEBPACK_IMPORTED_MODULE_1__["default"].deleteAll();
 };
 
 /***/ }),
@@ -78543,18 +78450,12 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 
 
 
- // import product from "./modules/product";
-// import cart from "./modules/cart";
 
 /* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: _state__WEBPACK_IMPORTED_MODULE_2__["default"],
   getters: _getters__WEBPACK_IMPORTED_MODULE_3__,
   mutations: _mutations__WEBPACK_IMPORTED_MODULE_4__,
-  actions: _actions__WEBPACK_IMPORTED_MODULE_5__ // modules: {
-  //     product,
-  //     cart
-  // }
-
+  actions: _actions__WEBPACK_IMPORTED_MODULE_5__
 }));
 
 /***/ }),
@@ -78563,7 +78464,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /*!*****************************************!*\
   !*** ./resources/js/store/mutations.js ***!
   \*****************************************/
-/*! exports provided: SET_PRODUCTS, SET_PRODUCT, ADD_TO_CART, SET_CART, REMOVE_PRODUCT_FROM_CART, CLEAR_CART_ITEMS */
+/*! exports provided: SET_PRODUCTS, SET_PRODUCT, ADD_TO_CART, SET_CART */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -78572,8 +78473,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_PRODUCT", function() { return SET_PRODUCT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ADD_TO_CART", function() { return ADD_TO_CART; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_CART", function() { return SET_CART; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_PRODUCT_FROM_CART", function() { return REMOVE_PRODUCT_FROM_CART; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CLEAR_CART_ITEMS", function() { return CLEAR_CART_ITEMS; });
 var SET_PRODUCTS = function SET_PRODUCTS(state, products) {
   state.products = products;
 };
@@ -78599,14 +78498,6 @@ var ADD_TO_CART = function ADD_TO_CART(state, _ref) {
 };
 var SET_CART = function SET_CART(state, cartItems) {
   state.cart = cartItems;
-};
-var REMOVE_PRODUCT_FROM_CART = function REMOVE_PRODUCT_FROM_CART(state, product) {
-  state.cart = state.cart.filter(function (item) {
-    return item.product.id !== product.id;
-  });
-};
-var CLEAR_CART_ITEMS = function CLEAR_CART_ITEMS(state) {
-  state.cart = [];
 };
 
 /***/ }),
