@@ -87,10 +87,10 @@ export default {
     },
 
     computed: {
-        ...mapState(["product"])
-        // product() {
-        //     return this.$store.state.product;
-        // }
+        ...mapState({
+            product: state => state.product.product
+        })
+
     },
 
     mounted() {

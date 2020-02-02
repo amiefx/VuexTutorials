@@ -13,11 +13,10 @@ export default {
     },
 
     computed: {
-        ...mapState(["products"])
-        // products() {
+        ...mapState({
+            products: state => state.product.products
+        })
 
-        //     return this.$store.state.products;
-        // }
     },
 
     mounted() {
